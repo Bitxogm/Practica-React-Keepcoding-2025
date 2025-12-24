@@ -4,7 +4,7 @@ export type User = {
 };
 
 export type LoginCredentials = {
-  name: string;
+  username: string;
   password: string;
 };
 

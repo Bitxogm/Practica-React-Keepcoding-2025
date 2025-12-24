@@ -10,6 +10,7 @@ const ProductsPage = lazy(() => import('@features/products/pages/ProductsPage'))
 const ProductDetailPage = lazy(() => import('@features/products/pages/ProductDetailPage'));
 const NewProductPage = lazy(() => import('@features/products/pages/NewProductPage'));
 const NotFoundPage = lazy(() => import('@features/NotFoundPage'));
+const RegisterPage = lazy(() => import('@features/auth/pages/RegisterPage'));
 
 // Loading component
 // eslint-disable-next-line react-refresh/only-export-components
@@ -28,11 +29,15 @@ export const routes: RouteObject[] = [
     children: [
       {
         index: true,
-        element : <Navigate to="/products" replace />,
+        element: <Navigate to="/products" replace />,
       },
       {
         path: '/login',
         element: lazyLoad(LoginPage),
+      },
+      {
+        path: '/register',
+        element: lazyLoad(RegisterPage),
       },
       {
         path: '/products',
@@ -58,7 +63,7 @@ export const routes: RouteObject[] = [
 export const getMenuOptions = (): MenuOption[] => {
   const children = routes[0].children ?? [];
   return children
-    .filter((route): route is RouteObject & { id: string } => 
+    .filter((route): route is RouteObject & { id: string } =>
       'id' in route && Boolean(route.id)
     )
     .map((route) => ({

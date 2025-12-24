@@ -24,9 +24,20 @@ export const useProducts = () => {
     loadProducts();
   }, []);
 
+  const createProduct = async (product: Omit<PCComponent, 'id'>) => {
+    try {
+      const newProduct = await productsService.createProduct(product);
+      setProducts([...products, newProduct]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al crear');
+      throw err;
+    }
+  };
+
   return {
     products,
     loading,
     error,
+    createProduct,
   };
 };
