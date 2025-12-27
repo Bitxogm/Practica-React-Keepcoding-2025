@@ -1,1 +1,36 @@
-{"products":[{"id":1,"name":"AMD Ryzen 7 5800X","price":299,"tags":["CPU"],"image":"","isOnSale":true,"description":"Procesador de 8 núcleos y 16 hilos a 3.8 GHz","userId":1},{"id":2,"name":"NVIDIA RTX 4070","price":599,"tags":["GPU"],"image":"","isOnSale":false,"description":"Tarjeta gráfica de última generación con 12GB GDDR6X","userId":1}],"users":[{"username":"admin","password":"$2b$10$y0OPmrDyxYrGF6rYfxC78eGGwvUKhKWm0fYhmTCS3jyi4ijpGpBO6","id":1}],"tags":["CPU","GPU","RAM","SSD","Motherboard","PSU","Case","Cooler"]}
+{
+  "products": [
+    {
+      "name": "fgnbbfgn",
+      "price": 666,
+      "tags": [
+        "SSD",
+        "Motherboard",
+        "RAM"
+      ],
+      "image": "",
+      "isOnSale": true,
+      "description": "fhhnfhnfhg",
+      "userId": 1,
+      "updatedAt": "2025-12-27T07:16:44.337Z",
+      "id": 1
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "password": "$2b$10$y0OPmrDyxYrGF6rYfxC78eGGwvUKhKWm0fYhmTCS3jyi4ijpGpBO6",
+      "id": 1
+    }
+  ],
+  "tags": [
+    "CPU",
+    "GPU",
+    "RAM",
+    "SSD",
+    "Motherboard",
+    "PSU",
+    "Case",
+    "Cooler"
+  ]
+}

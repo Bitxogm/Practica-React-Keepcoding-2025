@@ -34,10 +34,21 @@ export const useProducts = () => {
     }
   };
 
+  const deleteProduct = async (id: number) => {
+    try {
+      await productsService.deleteProduct(id);
+      setProducts(products.filter(p => p.id !== id));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al eliminar');
+      throw err;
+    }
+  };
+
   return {
     products,
     loading,
     error,
     createProduct,
+    deleteProduct,
   };
 };

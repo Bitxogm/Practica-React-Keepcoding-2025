@@ -1,9 +1,25 @@
-import { useParams, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useProduct } from '../hooks/useProduct';
+import { ConfirmDialog } from '@core/components/ConfirmDialog';
+import * as productsService from '../services/products.service';
 
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { product, loading, error } = useProduct(Number(id));
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const handleDelete = async () => {
+    try {
+      await productsService.deleteProduct(Number(id));
+      console.log('Producto eliminado');
+      navigate('/products');
+    } catch (error) {
+      console.error('Error al eliminar:', error);
+      alert('Error al eliminar el producto');
+    }
+  };
 
   if (loading) {
     return <div>Cargando producto...</div>;
@@ -36,8 +52,21 @@ export const ProductDetailPage: React.FC = () => {
 
       <div style={{ marginTop: '2rem' }}>
         <button style={{ marginRight: '1rem' }}>✏️ Editar</button>
-        <button style={{ background: 'red', color: 'white' }}>🗑️ Eliminar</button>
+        <button 
+          onClick={() => setShowConfirm(true)}
+          style={{ background: 'red', color: 'white' }}
+        >
+          🗑️ Eliminar
+        </button>
       </div>
+
+      <ConfirmDialog
+        isOpen={showConfirm}
+        title="Confirmar eliminación"
+        message={`¿Estás seguro de que quieres eliminar "${product.name}"?`}
+        onConfirm={handleDelete}
+        onCancel={() => setShowConfirm(false)}
+      />
     </div>
   );
 };
