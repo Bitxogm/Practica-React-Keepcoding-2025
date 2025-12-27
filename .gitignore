@@ -1,4 +1,34 @@
+# *.xls*
+# ficha.md
+# *-lock.json
 
+in-situ
+
+# Dependency directories
+node_modules
+jspm_packages
+
+# Compiled output and binary addons (https://nodejs.org/api/addons.html)
+build
+dist
+dist-ssr
+tmp
+out-tsc
+bazel-out
+
+# Test coverage
+coverage
+*.lcov
+lib-cov
+.nyc_output
+
+
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
 
 # Logs
 logs
@@ -6,48 +36,126 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
 lerna-debug.log*
+.pnpm-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
+# IDEs and editors directories and files
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-# Dependencias
-node_modules/
-.next/
-.turbo/
 
-# Archivos de entorno
-.env
-.env.local
-.env.development
-.env.production
+# Visual Studio Code
+*.code-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
 
-# Archivos del sistema
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# System files
 .DS_Store
 Thumbs.db
 
-#Ejecutables
-scripts/
-**/*.sh
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/libpeerconnection.log
+testem.log
+*.local
 
-#Firebase
-firebase-config.js
-functions/.runtimeconfig.json
+# TypeScript v1 declaration files
+typings
 
-# Ignorar la carpeta de caché de Firebase Hosting
-.firebase/
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
-.vscode
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
+# node-waf configuration
+.lock-wscript
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Serverless directories
+.serverless/
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+out
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# vuepress build output
+.vuepress/dist
+
+# vuepress v2.x temp and cache directory
+.temp
+.cache
+
+# vitepress build output
+**/.vitepress/dist
+
+# vitepress cache directory
+**/.vitepress/cache
+
+# Snowpack dependency directory (https://snowpack.dev/)
+web_modules/
