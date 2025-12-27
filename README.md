@@ -1,73 +1,155 @@
-# React + TypeScript + Vite
+# Dashboard de Componentes PC - Práctica React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web para gestionar un inventario de componentes de PC con autenticación JWT.
 
-Currently, two official plugins are available:
+## 🛠️ Tecnologías
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Frontend:**
+- React 19 + TypeScript
+- Vite
+- React Router v7 (Data Mode)
 
-## React Compiler
+**Backend:**
+- Sparrest.js (JSON Server con JWT)
+- Puerto: 8000
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📋 Requisitos
 
-## Expanding the ESLint configuration
+- Node.js 18+
+- npm 9+
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Instalación
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Clonar el repositorio
+```bash
+git clone <tu-repo>
+cd Practica-React
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 2. Instalar dependencias del frontend
+```bash
+npm install
 ```
+
+### 3. Instalar dependencias del backend
+```bash
+cd server
+npm install
+```
+### 4. Configurar variables de entorno
+
+**Frontend (.env en raíz):**
+
+Copia el archivo de ejemplo:
+```bash
+cp .env.example .env
+```
+
+El archivo contiene:
+```env
+VITE_API_URL=http://localhost:8000/api
+VITE_BASE_URL=http://localhost:8000
+```
+
+**Backend (server/.env):**
+
+Copia el archivo de ejemplo:
+```bash
+cp server/.env.example server/.env
+```
+
+El archivo contiene:
+```env
+SECRET_KEY=Annie is Vader
+PORT=8000
+DB_FILE=db.json
+JWT_EXPIRATION=24h
+SALT=10
+AUTH_READ=yes
+AUTH_WRITE=yes
+```
+
+**Importante:** `AUTH_READ=yes` requiere autenticación para LEER productos.
+
+## ▶️ Ejecución
+
+### Backend (Terminal 1)
+```bash
+cd server
+npm start
+```
+
+Servidor corriendo en: http://localhost:8000
+
+### Frontend (Terminal 2)
+```bash
+npm run dev
+```
+
+Aplicación corriendo en: http://localhost:5173
+
+## 🔐 Credenciales de prueba
+
+- **Usuario:** `admin`
+- **Contraseña:** `1234`
+
+También puedes registrar nuevos usuarios en `/register`
+
+## 📁 Estructura del Proyecto
+```
+src/
+├── core/                    # Componentes y lógica compartida
+│   ├── routes/             # Configuración de rutas
+│   └── types/              # Tipos compartidos
+├── features/               # Funcionalidades por módulo
+│   ├── auth/              # Autenticación
+│   │   ├── components/    # LoginForm
+│   │   ├── hooks/         # useAuth
+│   │   ├── pages/         # LoginPage, RegisterPage
+│   │   ├── services/      # auth.service
+│   │   └── types/         # User, LoginCredentials
+│   └── products/          # Gestión de productos
+│       ├── components/    # ProductCard, ProductForm
+│       ├── hooks/         # useProducts, useProduct
+│       ├── pages/         # ProductsPage, ProductDetailPage, NewProductPage
+│       ├── services/      # products.service
+│       └── types/         # PCComponent
+└── App.tsx
+```
+
+## ✅ Funcionalidades Implementadas
+
+### Autenticación
+- ✅ Registro de usuarios
+- ✅ Login con JWT
+- ✅ Persistencia de sesión (localStorage)
+- ✅ Protección de rutas
+
+### Productos (CRUD)
+- ✅ **Listar** productos (requiere autenticación)
+- ✅ **Ver detalle** de un producto
+- ✅ **Crear** nuevo producto (con formulario manual, sin librerías)
+- ⏳ Editar producto (pendiente)
+- ⏳ Eliminar producto (pendiente)
+
+### Filtros
+- ⏳ Filtrar por nombre
+- ⏳ Filtrar por rango de precio
+- ⏳ Filtrar por tags
+- ⏳ Filtrar por ofertas
+
+## 🎯 Características Técnicas
+
+- **React Router Data Mode:** Rutas programáticas con lazy loading
+- **Custom Hooks:** Separación de lógica de negocio
+- **Services Layer:** Llamadas API centralizadas
+- **TypeScript Strict:** Tipado completo
+- **Formularios manuales:** Sin React Hook Form ni Formik (requisito de la práctica)
+- **Arquitectura por features:** Código organizado por funcionalidad
+
+## 📝 Notas
+
+- El backend usa `bcrypt` para hashear contraseñas
+- Todos los endpoints de `/api/*` requieren token JWT en el header `Authorization: Bearer <token>`
+- El token expira en 24 horas
+- Las imágenes se pueden subir usando el endpoint `/upload` del backend
