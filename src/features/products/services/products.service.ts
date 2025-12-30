@@ -14,7 +14,7 @@ export const getAllProducts = async (): Promise<PCComponent[]> => {
   const response = await fetch(API_URL, {
     headers: getAuthHeaders(),
   });
-  
+
   if (!response.ok) {
     throw new Error('Error al cargar productos');
   }
@@ -25,7 +25,7 @@ export const getProductById = async (id: number): Promise<PCComponent> => {
   const response = await fetch(`${API_URL}/${id}`, {
     headers: getAuthHeaders(),
   });
-  
+
   if (!response.ok) {
     throw new Error('Producto no encontrado');
   }
@@ -36,21 +36,21 @@ export const createProduct = async (
   product: Omit<PCComponent, 'id'>
 ): Promise<PCComponent> => {
   console.log('📤 Enviando producto:', product);
-  
+
   const response = await fetch(API_URL, {
     method: 'POST',
     headers: getAuthHeaders(),
     body: JSON.stringify(product),
   });
-  
+
   console.log('📥 Response status:', response.status);
-  
+
   if (!response.ok) {
     const errorText = await response.text();
     console.error('❌ Error response:', errorText);
     throw new Error('Error al crear producto');
   }
-  
+
   const data = await response.json();
   console.log('✅ Producto creado:', data);
   return data;
@@ -61,8 +61,33 @@ export const deleteProduct = async (id: number): Promise<void> => {
     method: 'DELETE',
     headers: getAuthHeaders(),
   });
-  
+
   if (!response.ok) {
     throw new Error('Error al eliminar producto');
   }
+};
+
+export const updateProduct = async (
+  id: number,
+  product: Partial<PCComponent>
+): Promise<PCComponent> => {
+  console.log('📤 Actualizando producto:', id, product);
+
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: 'PATCH',
+    headers: getAuthHeaders(),
+    body: JSON.stringify(product),
+  });
+
+  console.log('📥 Response status:', response.status);
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error('❌ Error response:', errorText);
+    throw new Error('Error al actualizar producto');
+  }
+
+  const data = await response.json();
+  console.log('✅ Producto actualizado:', data);
+  return data;
 };

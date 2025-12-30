@@ -7,6 +7,7 @@ import type { MenuOption } from '../types/menu-option';
 
 // Lazy loading de páginas
 // const HomePage = lazy(() => import('@features/home/HomePage'));
+const EditProductPage = lazy(() => import('@features/products/pages/EditProductPage'));
 const LoginPage = lazy(() => import('@features/auth/pages/LoginPage'));
 const ProductsPage = lazy(() => import('@features/products/pages/ProductsPage'));
 const ProductDetailPage = lazy(() => import('@features/products/pages/ProductDetailPage'));
@@ -55,6 +56,14 @@ export const routes: RouteObject[] = [
         element: (
           <ProtectedRoute>
             {lazyLoad(NewProductPage)}
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/products/:id/edit',
+        element: (
+          <ProtectedRoute>
+            {lazyLoad(EditProductPage)}
           </ProtectedRoute>
         ),
       },

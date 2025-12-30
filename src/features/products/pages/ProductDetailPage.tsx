@@ -36,13 +36,13 @@ export const ProductDetailPage: React.FC = () => {
   return (
     <div>
       <Link to="/products">← Volver al listado</Link>
-      
+
       <h2>{product.name}</h2>
-      
+
       {product.image && (
         <img src={product.image} alt={product.name} style={{ maxWidth: '400px' }} />
       )}
-      
+
       <div style={{ marginTop: '1rem' }}>
         <p><strong>Precio:</strong> ${product.price}</p>
         <p><strong>Tags:</strong> {product.tags.join(', ')}</p>
@@ -51,8 +51,10 @@ export const ProductDetailPage: React.FC = () => {
       </div>
 
       <div style={{ marginTop: '2rem' }}>
-        <button style={{ marginRight: '1rem' }}>✏️ Editar</button>
-        <button 
+        <Link to={`/products/${id}/edit`}>
+          <button style={{ marginRight: '1rem' }}>✏️ Editar</button>
+        </Link>
+        <button
           onClick={() => setShowConfirm(true)}
           style={{ background: 'red', color: 'white' }}
         >

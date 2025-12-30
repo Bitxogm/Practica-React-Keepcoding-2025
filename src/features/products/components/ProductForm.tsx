@@ -3,16 +3,22 @@ import type { PCComponent } from '../types/product';
 
 interface Props {
   onSubmit: (product: Omit<PCComponent, 'id'>) => void;
+  initialData?: Partial<PCComponent>;
+  submitButtonText?: string;
 }
 
-export const ProductForm: React.FC<Props> = ({ onSubmit }) => {
+export const ProductForm: React.FC<Props> = ({ 
+  onSubmit, 
+  initialData,
+  submitButtonText = 'Crear Producto'
+}) => {
   const [formData, setFormData] = useState({
-    name: '',
-    price: 0,
-    tags: [] as string[],
-    image: '',
-    isOnSale: false,
-    description: '',
+    name: initialData?.name || '',
+    price: initialData?.price || 0,
+    tags: initialData?.tags || [] as string[],
+    image: initialData?.image || '',
+    isOnSale: initialData?.isOnSale || false,
+    description: initialData?.description || '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -21,10 +27,10 @@ export const ProductForm: React.FC<Props> = ({ onSubmit }) => {
 
     setFormData({
       ...formData,
-      [name]: type === 'checkbox'
-        ? checked
-        : type === 'number'
-          ? Number(value)  // ⭐ Convertir a número
+      [name]: type === 'checkbox' 
+        ? checked 
+        : type === 'number' 
+          ? Number(value)
           : value,
     });
   };
@@ -58,6 +64,7 @@ export const ProductForm: React.FC<Props> = ({ onSubmit }) => {
           min="0"
         />
       </div>
+
       <div>
         <label>Tags (selecciona uno o varios):</label>
         <div>
@@ -102,7 +109,7 @@ export const ProductForm: React.FC<Props> = ({ onSubmit }) => {
         </label>
       </div>
 
-      <button type="submit">Crear Producto</button>
+      <button type="submit">{submitButtonText}</button>
     </form>
   );
 };
