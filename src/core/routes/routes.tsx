@@ -1,10 +1,12 @@
 import { lazy, Suspense } from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
+
+import { ProtectedRoute } from '../components/ProtectedRoute';
 import App from '../../App';
 import type { MenuOption } from '../types/menu-option';
 
 // Lazy loading de páginas
-const HomePage = lazy(() => import('@features/home/HomePage'));
+// const HomePage = lazy(() => import('@features/home/HomePage'));
 const LoginPage = lazy(() => import('@features/auth/pages/LoginPage'));
 const ProductsPage = lazy(() => import('@features/products/pages/ProductsPage'));
 const ProductDetailPage = lazy(() => import('@features/products/pages/ProductDetailPage'));
@@ -41,17 +43,30 @@ export const routes: RouteObject[] = [
       },
       {
         path: '/products',
-        element: lazyLoad(ProductsPage),
+        element: (
+          <ProtectedRoute>
+            {lazyLoad(ProductsPage)}
+          </ProtectedRoute>
+        ),
         id: 'Products',
       },
       {
         path: '/products/new',
-        element: lazyLoad(NewProductPage),
+        element: (
+          <ProtectedRoute>
+            {lazyLoad(NewProductPage)}
+          </ProtectedRoute>
+        ),
       },
       {
         path: '/products/:id',
-        element: lazyLoad(ProductDetailPage),
+        element: (
+          <ProtectedRoute>
+            {lazyLoad(ProductDetailPage)}
+          </ProtectedRoute>
+        ),
       },
+
       {
         path: '*',
         element: lazyLoad(NotFoundPage),
