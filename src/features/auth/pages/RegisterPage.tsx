@@ -4,6 +4,7 @@ import type { LoginCredentials } from '../types/user';
 import * as authService from '../services/auth.service';
 import { toast } from 'sonner';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { getErrorMessage } from '@core/utils/http-errors';
 
 export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -13,8 +14,8 @@ export const RegisterPage: React.FC = () => {
       await authService.register(credentials);
       toast.success('Usuario registrado correctamente');
       navigate('/login');
-    } catch {
-      toast.error('Error al registrar usuario');
+    } catch (error) {
+       toast.error(getErrorMessage(error));
     }
   };
 

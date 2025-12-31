@@ -4,6 +4,7 @@ import { ProductForm } from '../components/ProductForm';
 import type { PCComponent } from '../types/product';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
+import { getErrorMessage } from '@core/utils/http-errors';
 
 export const NewProductPage: React.FC = () => {
   const navigate = useNavigate();
@@ -14,8 +15,8 @@ export const NewProductPage: React.FC = () => {
       await createProduct(product);
       toast.success('Producto creado correctamente');
       navigate('/products');
-    } catch {
-      toast.error('Error al crear el producto');
+    } catch (error) {
+       toast.error(getErrorMessage(error));
     }
   };
 

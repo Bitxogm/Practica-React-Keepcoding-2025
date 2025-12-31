@@ -13,18 +13,6 @@
       "userId": 1
     },
     {
-      "id": 2,
-      "name": "NVIDIA RTX 4070",
-      "price": 599,
-      "tags": [
-        "GPU"
-      ],
-      "image": "",
-      "isOnSale": false,
-      "description": "Tarjeta gráfica de última generación con 12GB GDDR6X",
-      "userId": 1
-    },
-    {
       "id": 4,
       "name": "Samsung 980 PRO 1TB",
       "price": 159666,

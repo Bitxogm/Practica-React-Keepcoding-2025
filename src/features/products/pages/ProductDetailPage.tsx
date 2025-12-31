@@ -4,10 +4,11 @@ import { useProduct } from '../hooks/useProduct';
 import { ConfirmDialog } from '@core/components/ConfirmDialog';
 import * as productsService from '../services/products.service';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Pencil, Trash2, Tag } from 'lucide-react';
 import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { getErrorMessage } from '@core/utils/http-errors';
 
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -20,8 +21,8 @@ export const ProductDetailPage: React.FC = () => {
       await productsService.deleteProduct(Number(id));
       toast.success('Producto eliminado correctamente');
       navigate('/products');
-    } catch {
-      toast.error('Error al eliminar el producto');
+    } catch (error) {
+       toast.error(getErrorMessage(error));
     }
   };
 

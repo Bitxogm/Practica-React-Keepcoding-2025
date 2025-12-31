@@ -1,3 +1,5 @@
+import { ArrowLeft } from 'lucide-react';
+import { toast } from 'sonner';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useProduct } from '../hooks/useProduct';
 import { ProductForm } from '../components/ProductForm';
@@ -5,8 +7,7 @@ import * as productsService from '../services/products.service';
 import type { PCComponent } from '../types/product';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
-import { toast } from 'sonner';
+import { getErrorMessage } from '@core/utils/http-errors';
 
 export const EditProductPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,8 +19,8 @@ export const EditProductPage: React.FC = () => {
       await productsService.updateProduct(Number(id), updatedProduct);
       toast.success('Producto actualizado correctamente');
       navigate(`/products/${id}`);
-    } catch {
-      toast.error('Error al actualizar el producto');
+    } catch (error) {
+      toast.error(getErrorMessage(error));
     }
   };
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { PCComponent } from '../types/product';
 import * as productsService from '../services/products.service';
+import { getErrorMessage } from '@core/utils/http-errors';
 
 export const useProduct = (id: number) => {
   const [product, setProduct] = useState<PCComponent | null>(null);
@@ -15,7 +16,7 @@ export const useProduct = (id: number) => {
         setProduct(data);
         setError(null);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error desconocido');
+        setError(getErrorMessage(err));
         setProduct(null);
       } finally {
         setLoading(false);

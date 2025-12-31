@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { PCComponent } from '../types/product';
 import * as productsService from '../services/products.service';
+import { getErrorMessage } from '@core/utils/http-errors';
 
 export const useProducts = () => {
   const [products, setProducts] = useState<PCComponent[]>([]);
@@ -15,7 +16,7 @@ export const useProducts = () => {
         setProducts(data);
         setError(null);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error desconocido');
+         setError(getErrorMessage(err));
       } finally {
         setLoading(false);
       }
@@ -29,7 +30,7 @@ export const useProducts = () => {
       const newProduct = await productsService.createProduct(product);
       setProducts([...products, newProduct]);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al crear');
+      setError(getErrorMessage(err));
       throw err;
     }
   };
@@ -39,7 +40,7 @@ export const useProducts = () => {
       await productsService.deleteProduct(id);
       setProducts(products.filter(p => p.id !== id));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al eliminar');
+      setError(getErrorMessage(err));
       throw err;
     }
   };

@@ -1,3 +1,4 @@
+import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
@@ -6,7 +7,6 @@ import { ProductFilters } from '../components/ProductFilters';
 import { filterProducts } from '../utils/filterProducts';
 import type { ProductFilters as Filters } from '../types/filters';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
 
 const AVAILABLE_TAGS = ["CPU", "GPU", "RAM", "SSD", "Motherboard", "PSU", "Case", "Cooler"];
 

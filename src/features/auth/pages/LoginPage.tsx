@@ -4,6 +4,7 @@ import { LoginForm } from '../components/LoginForm';
 import type { LoginCredentials } from '../types/user';
 import { toast } from 'sonner';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { getErrorMessage } from '@core/utils/http-errors';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -14,10 +15,10 @@ export const LoginPage: React.FC = () => {
       await login(credentials);
       toast.success('¡Bienvenido!');
       navigate('/products');
-    } catch  {
-      toast.error('Error: Usuario o contraseña incorrectos');
+    } catch (error) {
+      toast.error(getErrorMessage(error));
     }
-  };
+  };;
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center">
@@ -30,7 +31,7 @@ export const LoginPage: React.FC = () => {
         </CardHeader>
         <CardContent>
           <LoginForm onSubmit={handleLogin} />
-          
+
           <p className="mt-4 text-center text-sm text-muted-foreground">
             ¿No tienes cuenta?{' '}
             <Link to="/register" className="font-medium underline underline-offset-4 hover:text-primary">
