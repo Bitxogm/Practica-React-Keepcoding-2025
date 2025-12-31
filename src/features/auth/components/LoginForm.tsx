@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import type { LoginCredentials } from '../types/user';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 interface Props {
   onSubmit: (credentials: LoginCredentials) => void;
@@ -24,30 +27,36 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Usuario:</label>
-        <input
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="username">Usuario</Label>
+        <Input
+          id="username"
           type="text"
           name="username"
           value={formData.username}
           onChange={handleChange}
           required
+          placeholder="Ingresa tu usuario"
         />
       </div>
 
-      <div>
-        <label>Contraseña:</label>
-        <input
+      <div className="space-y-2">
+        <Label htmlFor="password">Contraseña</Label>
+        <Input
+          id="password"
           type="password"
           name="password"
           value={formData.password}
           onChange={handleChange}
           required
+          placeholder="Ingresa tu contraseña"
         />
       </div>
 
-      <button type="submit">Iniciar Sesión</button>
+      <Button type="submit" className="w-full">
+        Iniciar Sesión
+      </Button>
     </form>
   );
 };

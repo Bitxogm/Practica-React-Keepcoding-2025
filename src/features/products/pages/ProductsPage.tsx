@@ -5,6 +5,8 @@ import { ProductCard } from '../components/ProductCard';
 import { ProductFilters } from '../components/ProductFilters';
 import { filterProducts } from '../utils/filterProducts';
 import type { ProductFilters as Filters } from '../types/filters';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
 
 const AVAILABLE_TAGS = ["CPU", "GPU", "RAM", "SSD", "Motherboard", "PSU", "Case", "Cooler"];
 
@@ -21,19 +23,27 @@ export const ProductsPage: React.FC = () => {
   const filteredProducts = filterProducts(products, filters);
 
   if (loading) {
-    return <div>Cargando productos...</div>;
+    return <div className="text-center py-12">Cargando productos...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="text-center py-12 text-destructive">Error: {error}</div>;
   }
 
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2>Listado de Componentes PC</h2>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Componentes PC</h1>
+          <p className="text-muted-foreground mt-1">
+            Gestiona tu inventario de componentes
+          </p>
+        </div>
         <Link to="/products/new">
-          <button>➕ Nuevo Producto</button>
+          <Button>
+            <Plus className="mr-2 h-4 w-4" />
+            Nuevo Producto
+          </Button>
         </Link>
       </div>
 
@@ -42,16 +52,18 @@ export const ProductsPage: React.FC = () => {
         availableTags={AVAILABLE_TAGS}
       />
       
-      <p>
-        Mostrando {filteredProducts.length} de {products.length} productos
-      </p>
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-muted-foreground">
+          Mostrando {filteredProducts.length} de {products.length} productos
+        </p>
+      </div>
 
       {filteredProducts.length === 0 ? (
-        <div>
-          <p>No se encontraron productos con los filtros seleccionados.</p>
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">No se encontraron productos con los filtros seleccionados.</p>
         </div>
       ) : (
-        <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
 import { ProductForm } from '../components/ProductForm';
 import type { PCComponent } from '../types/product';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from 'sonner';
 
 export const NewProductPage: React.FC = () => {
   const navigate = useNavigate();
@@ -9,19 +11,27 @@ export const NewProductPage: React.FC = () => {
 
   const handleSubmit = async (product: Omit<PCComponent, 'id'>) => {
     try {
-      console.log('Intentando crear producto:', product);
       await createProduct(product);
-      console.log('Producto creado correctamente');
+      toast.success('Producto creado correctamente');
       navigate('/products');
-    } catch (error) {
-      console.error('Error al crear producto:', error);
+    } catch {
+      toast.error('Error al crear el producto');
     }
   };
 
   return (
-    <div>
-      <h2>Crear Nuevo Componente PC</h2>
-      <ProductForm onSubmit={handleSubmit} />
+    <div className="max-w-2xl mx-auto space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Crear Nuevo Componente</CardTitle>
+          <CardDescription>
+            Añade un nuevo componente a tu inventario
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ProductForm onSubmit={handleSubmit} />
+        </CardContent>
+      </Card>
     </div>
   );
 };

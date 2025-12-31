@@ -1,57 +1,50 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@features/auth/context/AuthContext';
+import { Button } from '@/components/ui/button';
+import { LogOut, Package } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogout: () => void = () => {
     logout();
     navigate('/login');
   };
 
   return (
-    <header style={{
-      backgroundColor: '#333',
-      color: '#fff',
-      padding: '1rem 2rem',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    }}>
-      <div>
-        <Link to="/" style={{ color: '#fff', textDecoration: 'none', fontSize: '1.5rem', fontWeight: 'bold' }}>
-          🖥️ PC Components
-        </Link>
-      </div>
-
-      <nav style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-        {isAuthenticated ? (
-          <>
-            <Link to="/products" style={{ color: '#fff', textDecoration: 'none' }}>
-              Productos
-            </Link>
-            <span style={{ color: '#aaa' }}>Usuario: {user?.username}</span>
-            <button 
-              onClick={handleLogout}
-              style={{
-                padding: '0.5rem 1rem',
-                backgroundColor: '#dc2626',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-              }}
-            >
-              Cerrar Sesión
-            </button>
-          </>
-        ) : (
-          <Link to="/login" style={{ color: '#fff', textDecoration: 'none' }}>
-            Iniciar Sesión
+    <header className="border-b bg-card">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2 text-2xl font-bold hover:opacity-80 transition-opacity">
+            <Package className="h-8 w-8" />
+            <span>PC Components</span>
           </Link>
-        )}
-      </nav>
+
+          <nav className="flex items-center gap-6">
+            {isAuthenticated ? (
+              <>
+                <Link to="/products" className="text-sm font-medium hover:underline">
+                  Productos
+                </Link>
+                <span className="text-sm text-muted-foreground">
+                  {user?.username}
+                </span>
+                <Button onClick={handleLogout} variant="destructive" size="sm">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Cerrar Sesión
+                </Button>
+              </>
+            ) : (
+              <Link to="/login">
+                <Button variant="default" size="sm">
+                  Iniciar Sesión
+                </Button>
+              </Link>
+            )}
+          </nav>
+        </div>
+      </div>
     </header>
   );
 };

@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom';
 import type { PCComponent } from '../types/product';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { ExternalLink, Tag } from 'lucide-react';
 
 interface Props {
   product: PCComponent;
@@ -7,23 +11,44 @@ interface Props {
 
 export const ProductCard: React.FC<Props> = ({ product }) => {
   return (
-    <article style={{ 
-      border: '1px solid #ccc', 
-      padding: '1rem', 
-      borderRadius: '8px',
-      marginBottom: '1rem'
-    }}>
-      <Link to={`/products/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-        <h3>{product.name}</h3>
-      </Link>
-      <p><strong>Precio:</strong> ${product.price}</p>
-      <p><strong>Tags:</strong> {product.tags.join(', ')}</p>
-      {product.isOnSale && <span style={{ color: 'red' }}>🔥 OFERTA</span>}
-      <p>{product.description}</p>
+    <Card className="hover:shadow-lg transition-shadow">
+      <CardHeader>
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <CardTitle className="text-xl">{product.name}</CardTitle>
+            <CardDescription className="mt-2">
+              {product.description}
+            </CardDescription>
+          </div>
+          {product.isOnSale && (
+            <Badge variant="destructive">Oferta</Badge>
+          )}
+        </div>
+      </CardHeader>
       
-      <Link to={`/products/${product.id}`}>
-        <button>Ver detalle</button>
-      </Link>
-    </article>
+      <CardContent>
+        <div className="space-y-2">
+          <p className="text-2xl font-bold">${product.price}</p>
+          
+          <div className="flex flex-wrap gap-1 items-center">
+            <Tag className="h-3 w-3 text-muted-foreground" />
+            {product.tags.map((tag) => (
+              <Badge key={tag} variant="secondary" className="text-xs">
+                {tag}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      </CardContent>
+      
+      <CardFooter>
+        <Link to={`/products/${product.id}`} className="w-full">
+          <Button variant="outline" className="w-full">
+            <ExternalLink className="mr-2 h-4 w-4" />
+            Ver detalle
+          </Button>
+        </Link>
+      </CardFooter>
+    </Card>
   );
 };

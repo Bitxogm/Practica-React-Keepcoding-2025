@@ -83,6 +83,34 @@ AUTH_WRITE=yes
 
 ## ▶️ Ejecución
 
+### Opción 1: Arrancar todo junto (Recomendado para desarrollo)
+```bash
+npm run dev:full
+```
+
+Esto arranca automáticamente:
+- ✅ Backend en http://localhost:8000
+- ✅ Frontend en http://localhost:5173
+
+### Opción 2: Arrancar por separado
+
+**Backend (Terminal 1):**
+```bash
+npm run server
+```
+
+Servidor corriendo en: http://localhost:8000
+
+**Frontend (Terminal 2):**
+```bash
+npm run dev
+```
+
+Aplicación corriendo en: http://localhost:5173
+
+---
+
+**Nota:** El backend **DEBE** estar corriendo para que el frontend funcione correctamente, ya que `AUTH_READ=yes` requiere autenticación para todas las operaciones.
 ### Backend (Terminal 1)
 
 ```bash
