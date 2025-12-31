@@ -1,6 +1,6 @@
 export type User = {
   id: number;
-  name: string;
+  username: string;
 };
 
 export type LoginCredentials = {

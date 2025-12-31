@@ -1,5 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+
+import { useAuth } from '../context/AuthContext';
 import { LoginForm } from '../components/LoginForm';
 import type { LoginCredentials } from '../types/user';
 
@@ -26,7 +27,7 @@ export const LoginPage: React.FC = () => {
       <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: '#666' }}>
         Hint: Primero debes registrarte si no tienes usuario
       </p>
-            <p style={{ marginTop: '1rem' }}>
+      <p style={{ marginTop: '1rem' }}>
         ¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link>
       </p>
     </div>
