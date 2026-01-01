@@ -1,74 +1,146 @@
-# Dashboard de Componentes PC - Práctica React
+# 🖥️ Dashboard de Componentes PC
 
-Aplicación web para gestionar un inventario de componentes de PC con autenticación JWT.
+Aplicación web fullstack para gestionar un inventario de componentes de PC con autenticación JWT, desarrollada como práctica del bootcamp KeepCoding Web 19 (Diciembre 2024).
 
-## 🛠️ Tecnologías
+## 🛠️ Tecnologías Utilizadas
 
-**Frontend:**
+### Frontend
+- **React 19** - Biblioteca de UI
+- **TypeScript** - Tipado estático
+- **Vite** - Build tool y dev server
+- **React Router v7** - Navegación (Data Mode)
+- **shadcn/ui** - Componentes UI modernos
+- **Tailwind CSS** - Estilos utility-first
+- **Sonner** - Toast notifications
+- **Lucide React** - Iconos
 
-- React 19 + TypeScript
-- Vite
-- React Router v7 (Data Mode)
+### Backend
+- **Sparrest.js** - JSON Server con autenticación JWT
+- **bcrypt** - Hash de contraseñas
+- **Node.js** - Runtime
 
-**Backend:**
+## ✨ Características Implementadas
 
-- Sparrest.js (JSON Server con JWT)
-- Puerto: 8000
+### Autenticación
+- ✅ Registro de usuarios con validación
+- ✅ Login con JWT y persistencia de sesión
+- ✅ Logout con limpieza de estado
+- ✅ Context API para estado global de autenticación
+- ✅ Rutas protegidas con redirect automático
 
-## 📋 Requisitos
+### CRUD de Productos
+- ✅ **Crear:** Formulario manual (sin librerías) con validación
+- ✅ **Leer:** Listado con grid responsive y detalle individual
+- ✅ **Actualizar:** Formulario precargado con datos existentes
+- ✅ **Eliminar:** Con modal de confirmación (AlertDialog)
 
-- Node.js 18+
+### Filtros (Client-side)
+- ✅ Búsqueda por nombre (en tiempo real)
+- ✅ Rango de precio (min/max)
+- ✅ Filtro por tags/categorías (múltiple)
+- ✅ Filtro por estado (ofertas/sin ofertas/todos)
+- ✅ Contador de resultados filtrados
+
+### UX/UI
+- ✅ Diseño moderno con shadcn/ui
+- ✅ Tema con buen contraste (fondo gris claro)
+- ✅ Toast notifications para feedback
+- ✅ Loading states en todas las operaciones
+- ✅ Manejo completo de errores HTTP
+- ✅ Iconos descriptivos (Lucide)
+
+### Manejo de Errores
+- ✅ Error de conexión (backend desconectado)
+- ✅ Error 401 (no autenticado) → redirect a login
+- ✅ Error 403 (sin permisos)
+- ✅ Error 404 (recurso no encontrado)
+- ✅ Error 500 (error del servidor)
+- ✅ Mensajes claros y contextuales
+
+## 📁 Estructura del Proyecto
+```
+├── server/                      # Backend (Sparrest.js)
+│   ├── db.json                 # Base de datos JSON
+│   ├── .env                    # Variables de entorno
+│   └── index.js                # Servidor
+│
+├── src/
+│   ├── core/                   # Componentes y lógica compartida
+│   │   ├── components/         # Header, ProtectedRoute, ConfirmDialog
+│   │   ├── routes/            # Configuración de rutas
+│   │   ├── types/             # Tipos compartidos
+│   │   └── utils/             # Helpers (http-errors)
+│   │
+│   ├── features/              # Funcionalidades por módulo
+│   │   ├── auth/             # Autenticación
+│   │   │   ├── components/   # LoginForm
+│   │   │   ├── context/      # AuthContext (estado global)
+│   │   │   ├── hooks/        # [movido a context]
+│   │   │   ├── pages/        # LoginPage, RegisterPage
+│   │   │   ├── services/     # auth.service (API)
+│   │   │   └── types/        # User, LoginCredentials
+│   │   │
+│   │   └── products/         # Gestión de productos
+│   │       ├── components/   # ProductCard, ProductForm, ProductFilters
+│   │       ├── hooks/        # useProducts, useProduct
+│   │       ├── pages/        # ProductsPage, ProductDetailPage, etc.
+│   │       ├── services/     # products.service (API)
+│   │       ├── types/        # PCComponent, ProductFilters
+│   │       └── utils/        # filterProducts
+│   │
+│   ├── components/ui/         # shadcn/ui components
+│   ├── App.tsx               # Layout principal
+│   └── main.tsx              # Entry point con AuthProvider
+│
+├── .env                       # Variables de entorno frontend
+└── README.md                  # Este archivo
+```
+
+## 🚀 Instalación y Ejecución
+
+### Requisitos Previos
+- Node.js 18+ 
 - npm 9+
 
-## 🚀 Instalación
-
 ### 1. Clonar el repositorio
-
 ```bash
-git clone <tu-repo>
+git clone <tu-repositorio>
 cd Practica-React
 ```
 
-### 2. Instalar dependencias del frontend
+### 2. Instalar dependencias
 
+**Frontend:**
 ```bash
 npm install
 ```
 
-### 3. Instalar dependencias del backend
-
+**Backend:**
 ```bash
 cd server
 npm install
+cd ..
 ```
 
-### 4. Configurar variables de entorno
+### 3. Configurar variables de entorno
 
 **Frontend (.env en raíz):**
-
-Copia el archivo de ejemplo:
-
 ```bash
 cp .env.example .env
 ```
 
-El archivo contiene:
-
+Contenido de `.env`:
 ```env
 VITE_API_URL=http://localhost:8000/api
 VITE_BASE_URL=http://localhost:8000
 ```
 
 **Backend (server/.env):**
-
-Copia el archivo de ejemplo:
-
 ```bash
 cp server/.env.example server/.env
 ```
 
-El archivo contiene:
-
+Contenido de `server/.env`:
 ```env
 SECRET_KEY=Annie is Vader
 PORT=8000
@@ -79,121 +151,146 @@ AUTH_READ=yes
 AUTH_WRITE=yes
 ```
 
-**Importante:** `AUTH_READ=yes` requiere autenticación para LEER productos.
+⚠️ **Importante:** `AUTH_READ=yes` requiere autenticación para LEER productos.
 
-## ▶️ Ejecución
+### 4. Ejecutar la aplicación
 
-### Opción 1: Arrancar todo junto (Recomendado para desarrollo)
+**Opción A: Todo junto (Recomendado)**
 ```bash
 npm run dev:full
 ```
 
-Esto arranca automáticamente:
-- ✅ Backend en http://localhost:8000
-- ✅ Frontend en http://localhost:5173
+**Opción B: Por separado**
 
-### Opción 2: Arrancar por separado
-
-**Backend (Terminal 1):**
+Terminal 1 - Backend:
 ```bash
 npm run server
 ```
 
-Servidor corriendo en: http://localhost:8000
-
-**Frontend (Terminal 2):**
+Terminal 2 - Frontend:
 ```bash
 npm run dev
 ```
 
-Aplicación corriendo en: http://localhost:5173
+### 5. Acceder a la aplicación
 
----
+- Frontend: http://localhost:5173
+- Backend: http://localhost:8000
 
-**Nota:** El backend **DEBE** estar corriendo para que el frontend funcione correctamente, ya que `AUTH_READ=yes` requiere autenticación para todas las operaciones.
-### Backend (Terminal 1)
-
-```bash
-cd server
-npm start
+## 🔐 Credenciales de Prueba
 ```
-
-Servidor corriendo en: http://localhost:8000
-
-### Frontend (Terminal 2)
-
-```bash
-npm run dev
+Usuario: admin
+Contraseña: 1234
 ```
-
-Aplicación corriendo en: http://localhost:5173
-
-## 🔐 Credenciales de prueba
-
-- **Usuario:** `admin`
-- **Contraseña:** `1234`
 
 También puedes registrar nuevos usuarios en `/register`
 
-## 📁 Estructura del Proyecto
-
-```
-src/
-├── core/                    # Componentes y lógica compartida
-│   ├── routes/             # Configuración de rutas
-│   └── types/              # Tipos compartidos
-├── features/               # Funcionalidades por módulo
-│   ├── auth/              # Autenticación
-│   │   ├── components/    # LoginForm
-│   │   ├── hooks/         # useAuth
-│   │   ├── pages/         # LoginPage, RegisterPage
-│   │   ├── services/      # auth.service
-│   │   └── types/         # User, LoginCredentials
-│   └── products/          # Gestión de productos
-│       ├── components/    # ProductCard, ProductForm
-│       ├── hooks/         # useProducts, useProduct
-│       ├── pages/         # ProductsPage, ProductDetailPage, NewProductPage
-│       ├── services/      # products.service
-│       └── types/         # PCComponent
-└── App.tsx
+## 📜 Scripts Disponibles
+```json
+{
+  "dev": "Solo frontend (Vite)",
+  "server": "Solo backend (Sparrest)",
+  "dev:full": "Frontend + Backend simultáneamente",
+  "build": "Compilar para producción",
+  "lint": "Linter de código"
+}
 ```
 
-## ✅ Funcionalidades Implementadas
+## 🏗️ Arquitectura y Decisiones Técnicas
+
+### Patrón de Arquitectura
+- **Feature-based structure:** Código organizado por funcionalidad
+- **Service layer:** Separación de lógica de API
+- **Custom hooks:** Lógica de negocio reutilizable
+- **Context API:** Estado global de autenticación
+
+### Flujo de Datos
+```
+Components → Custom Hooks → Services → API
+                ↓
+            Context API (auth)
+```
+
+### Manejo de Estado
+- **Local state:** `useState` para UI y formularios
+- **Global state:** Context API solo para autenticación
+- **Server state:** Custom hooks (`useProducts`, `useProduct`)
+
+### Rutas Protegidas
+```typescript
+ProtectedRoute → verifica token → permite acceso o redirect a /login
+```
+
+### Formularios
+- ✅ Patrón de controlled components
+- ✅ Validación HTML5 + TypeScript
+- ✅ Feedback con toasts
+
+## ⚙️ Configuración de Backend
+
+El backend usa **Sparrest.js**, un fork de json-server con JWT.
+
+### Endpoints Disponibles
+
+**Autenticación (sin /api):**
+- `POST /auth/register` - Registrar usuario
+- `POST /auth/login` - Obtener JWT token
+
+**Productos (con /api, requieren JWT):**
+- `GET /api/products` - Listar productos
+- `GET /api/products/:id` - Ver detalle
+- `POST /api/products` - Crear producto
+- `PATCH /api/products/:id` - Actualizar producto
+- `DELETE /api/products/:id` - Eliminar producto
+
+**Otros:**
+- `GET /api/tags` - Listar tags disponibles
+- `POST /upload` - Subir imágenes (multipart)
 
 ### Autenticación
+Todos los endpoints de `/api/*` requieren header:
+```
+Authorization: Bearer <JWT_TOKEN>
+```
 
-- ✅ Registro de usuarios
-- ✅ Login con JWT
-- ✅ Persistencia de sesión (localStorage)
-- ✅ Protección de rutas
+## 📝 Notas Importantes
 
-### Productos (CRUD)
+- El backend usa un archivo JSON (`server/db.json`) como base de datos.
+- Las contraseñas se almacenan hasheadas con bcrypt.
+- El token JWT expira en 24 horas (configurable en `.env`).
+### Tecnologías Adicionales 
+- ✅ shadcn/ui - Componentes UI visuales
+- ✅ Tailwind CSS - Estilos
+- ✅ Sonner - Toasts
+- ✅ Lucide React - Iconos
 
-- ✅ **Listar** productos (requiere autenticación)
-- ✅ **Ver detalle** de un producto
-- ✅ **Crear** nuevo producto (con formulario manual, sin librerías)
-- ✅ **Editar** producto
-- ✅ **Eliminar** producto
+## 🐛 Troubleshooting
 
-### Filtros
+**Error: "No se pudo conectar con el servidor"**
+- Verifica que el backend esté corriendo en puerto 8000
+- Usa `npm run dev:full` para arrancar todo
 
-- ⏳ Filtrar por nombre
-- ⏳ Filtrar por rango de precio
-- ⏳ Filtrar por tags
-- ⏳ Filtrar por ofertas
+**Error 401 al ver productos**
+- Necesitas estar autenticado (AUTH_READ=yes)
+- Haz login primero
 
-## 🎯 Características Técnicas
+**Los filtros no funcionan**
+- Los filtros son client-side, funcionan con datos ya cargados
+- Si no ves productos, verifica la autenticación
 
-- **React Router Data Mode:** Rutas programáticas con lazy loading
-- **Custom Hooks:** Separación de lógica de negocio
-- **Services Layer:** Llamadas API centralizadas
-- **TypeScript Strict:** Tipado completo
-- **Formularios manuales:** Sin React Hook Form ni Formik (requisito de la práctica)
-- **Arquitectura por features:** Código organizado por funcionalidad
+## 👨‍💻 Desarrollo
 
-## 📝 Notas
+### Añadir un nuevo componente shadcn/ui
+```bash
+npx shadcn@latest add <component-name>
+```
 
-- El backend usa `bcrypt` para hashear contraseñas
-- Todos los endpoints de `/api/*` requieren token JWT en el header `Authorization: Bearer <token>`
-- El token expira en 24 horas
-- Las imágenes se pueden subir usando el endpoint `/upload` del backend
+### Añadir un nuevo producto de prueba
+Edita `server/db.json` y reinicia el backend.
+
+## 📄 Licencia
+
+Proyecto educativo - KeepCoding Web Bootcamp 19 (2024)
+
+---
+
