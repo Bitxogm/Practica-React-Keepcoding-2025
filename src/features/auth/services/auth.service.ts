@@ -24,7 +24,9 @@ export const login = async (credentials: LoginCredentials): Promise<AuthResponse
     body: JSON.stringify(credentials),
   });
 
-  return handleResponse<AuthResponse>(response);
+  const data = await handleResponse<AuthResponse>(response);
+  console.log('📡 Respuesta del backend login:', data);
+  return data;
 };
 
 export const register = async (credentials: LoginCredentials): Promise<AuthResponse> => {

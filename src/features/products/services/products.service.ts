@@ -4,7 +4,7 @@ import { HttpError } from '@core/utils/http-errors';
 const API_URL = import.meta.env.VITE_API_URL + '/products';
 
 const getAuthHeaders = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
   return {
     'Content-Type': 'application/json',
     ...(token && { Authorization: `Bearer ${token}` }),

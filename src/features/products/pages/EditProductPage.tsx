@@ -7,9 +7,10 @@ import * as productsService from '../services/products.service';
 import type { PCComponent } from '../types/product';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { getErrorMessage } from '@core/utils/http-errors';
+import { useHandleAuthError } from '@core/hooks/useHandleAuthError';
 
 export const EditProductPage: React.FC = () => {
+  const { handleError } = useHandleAuthError();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { product, loading, error } = useProduct(Number(id));
@@ -20,7 +21,7 @@ export const EditProductPage: React.FC = () => {
       toast.success('Producto actualizado correctamente');
       navigate(`/products/${id}`);
     } catch (error) {
-      toast.error(getErrorMessage(error));
+      handleError(error);
     }
   };
 
@@ -53,7 +54,7 @@ export const EditProductPage: React.FC = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ProductForm 
+          <ProductForm
             onSubmit={handleSubmit}
             initialData={product}
             submitButtonText="Guardar Cambios"

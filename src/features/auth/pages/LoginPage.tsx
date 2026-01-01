@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import { LoginForm } from '../components/LoginForm';
 import type { LoginCredentials } from '../types/user';
 import { toast } from 'sonner';
@@ -10,9 +10,9 @@ export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleLogin = async (credentials: LoginCredentials) => {
+  const handleLogin = async (credentials: LoginCredentials, rememberMe: boolean) => {
     try {
-      await login(credentials);
+      await login(credentials, rememberMe);
       toast.success('¡Bienvenido!');
       navigate('/products');
     } catch (error) {

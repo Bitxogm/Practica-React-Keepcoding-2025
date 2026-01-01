@@ -3,9 +3,10 @@ import type { LoginCredentials } from '../types/user';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface Props {
-  onSubmit: (credentials: LoginCredentials) => void;
+  onSubmit: (credentials: LoginCredentials, rememberMe: boolean) => void;
 }
 
 export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
@@ -13,6 +14,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
     username: '',
     password: '',
   });
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -23,7 +25,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    onSubmit(formData, rememberMe);
   };
 
   return (
@@ -52,6 +54,17 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
           required
           placeholder="Ingresa tu contraseña"
         />
+      </div>
+
+      <div className="flex items-center space-x-2">
+        <Checkbox
+          id="rememberMe"
+          checked={rememberMe}
+          onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+        />
+        <Label htmlFor="rememberMe" className="text-sm font-normal cursor-pointer">
+          Recordar contraseña
+        </Label>
       </div>
 
       <Button type="submit" className="w-full">

@@ -8,23 +8,24 @@ import { ArrowLeft, Pencil, Trash2, Tag } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { getErrorMessage } from '@core/utils/http-errors';
+import { useHandleAuthError } from '@core/hooks/useHandleAuthError';
 
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { handleError } = useHandleAuthError();
   const { product, loading, error } = useProduct(Number(id));
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const handleDelete = async () => {
-    try {
-      await productsService.deleteProduct(Number(id));
-      toast.success('Producto eliminado correctamente');
-      navigate('/products');
-    } catch (error) {
-       toast.error(getErrorMessage(error));
-    }
-  };
+const handleDelete = async () => {
+  try {
+    await productsService.deleteProduct(Number(id));
+    toast.success('Producto eliminado correctamente');
+    navigate('/products');
+  } catch (error) {
+    handleError(error);
+  }
+};
 
   if (loading) {
     return <div className="text-center py-12">Cargando producto...</div>;

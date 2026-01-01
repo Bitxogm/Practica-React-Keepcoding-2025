@@ -1,24 +1,26 @@
+import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
 import { ProductForm } from '../components/ProductForm';
 import type { PCComponent } from '../types/product';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { toast } from 'sonner';
-import { getErrorMessage } from '@core/utils/http-errors';
+import { useHandleAuthError } from '@core/hooks/useHandleAuthError';
 
 export const NewProductPage: React.FC = () => {
   const navigate = useNavigate();
   const { createProduct } = useProducts();
+  const { handleError } = useHandleAuthError();
 
+  
   const handleSubmit = async (product: Omit<PCComponent, 'id'>) => {
-    try {
-      await createProduct(product);
-      toast.success('Producto creado correctamente');
-      navigate('/products');
-    } catch (error) {
-       toast.error(getErrorMessage(error));
-    }
-  };
+  try {
+    await createProduct(product);
+    toast.success('Producto creado correctamente');
+    navigate('/products');
+  } catch (error) {
+    handleError(error);
+  }
+};;
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">

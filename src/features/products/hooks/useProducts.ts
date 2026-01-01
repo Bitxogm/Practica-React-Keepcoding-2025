@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import type { PCComponent } from '../types/product';
 import * as productsService from '../services/products.service';
 import { getErrorMessage } from '@core/utils/http-errors';
+import { useHandleAuthError } from '@core/hooks/useHandleAuthError';
 
 export const useProducts = () => {
   const [products, setProducts] = useState<PCComponent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { handleError } = useHandleAuthError();
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -16,14 +18,16 @@ export const useProducts = () => {
         setProducts(data);
         setError(null);
       } catch (err) {
-         setError(getErrorMessage(err));
+        const errorMsg = getErrorMessage(err);
+        setError(errorMsg);
+        handleError(err);
       } finally {
         setLoading(false);
       }
     };
 
     loadProducts();
-  }, []);
+  },[ handleError]);
 
   const createProduct = async (product: Omit<PCComponent, 'id'>) => {
     try {
@@ -31,6 +35,7 @@ export const useProducts = () => {
       setProducts([...products, newProduct]);
     } catch (err) {
       setError(getErrorMessage(err));
+      handleError(err);
       throw err;
     }
   };
@@ -41,6 +46,7 @@ export const useProducts = () => {
       setProducts(products.filter(p => p.id !== id));
     } catch (err) {
       setError(getErrorMessage(err));
+      handleError(err);
       throw err;
     }
   };
