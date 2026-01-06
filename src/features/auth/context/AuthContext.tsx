@@ -31,9 +31,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [token, setToken] = useState<string | null>(getInitialToken);
 
   const login = async (credentials: LoginCredentials, rememberMe: boolean = false) => {
-    console.log('🔐 Login iniciado, rememberMe:', rememberMe);
     const data = await authService.login(credentials);
-    console.log('✅ Datos recibidos:', data);
 
     // Decodificar el JWT para extraer el user
     const decoded = jwtDecode<JwtPayload>(data.accessToken);
@@ -42,23 +40,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       username: decoded.username,
     };
 
-    console.log('👤 Usuario decodificado:', user);
-
     if (rememberMe) {
-      console.log('💾 Guardando en localStorage');
       localStorage.setItem('token', data.accessToken);
       localStorage.setItem('user', JSON.stringify(user));
     } else {
-      console.log('💾 Guardando en sessionStorage');
       sessionStorage.setItem('token', data.accessToken);
       sessionStorage.setItem('user', JSON.stringify(user));
     }
 
     setToken(data.accessToken);
     setUser(user);
-
-    console.log('🎯 Estado actualizado - token:', data.accessToken ? 'SÍ' : 'NO');
-    console.log('🎯 Estado actualizado - user:', user);
   };
 
   const logout = () => {

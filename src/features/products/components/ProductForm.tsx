@@ -5,6 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent } from '@/components/ui/card';
+import { toast } from 'sonner';
+import * as productsService from '../services/products.service';
+import { Upload, X } from 'lucide-react';
 
 interface Props {
   onSubmit: (product: Omit<PCComponent, 'id'>) => void;
@@ -21,12 +24,14 @@ export const ProductForm: React.FC<Props> = ({
 }) => {
   const [formData, setFormData] = useState({
     name: initialData?.name || '',
-    price: initialData?.price || 0,
+    price: initialData?.price ?? '',
     tags: initialData?.tags || [] as string[],
     image: initialData?.image || '',
     isOnSale: initialData?.isOnSale || false,
     description: initialData?.description || '',
   });
+  const [uploading, setUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(initialData?.image || null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
@@ -49,10 +54,51 @@ export const ProductForm: React.FC<Props> = ({
     setFormData({ ...formData, tags: newTags });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(formData);
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validar tipo de archivo
+    if (!file.type.startsWith('image/')) {
+      toast.error('Solo se permiten archivos de imagen');
+      return;
+    }
+
+    // Validar tamaño (5MB máximo)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('La imagen no puede superar los 5MB');
+      return;
+    }
+
+    try {
+      setUploading(true);
+      const imageUrl = await productsService.uploadImage(file);
+      setFormData({ ...formData, image: imageUrl });
+      setPreviewUrl(imageUrl);
+      toast.success('Imagen subida correctamente');
+    } catch (error) {
+      toast.error('Error al subir la imagen'+ error);
+    } finally {
+      setUploading(false);
+    }
   };
+
+  const handleRemoveImage = () => {
+    setFormData({ ...formData, image: '' });
+    setPreviewUrl(null);
+  };
+
+const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  // Convertir price a número antes de enviar
+  const dataToSubmit = {
+    ...formData,
+    price: Number(formData.price) || 0,
+  };
+  
+  onSubmit(dataToSubmit);
+};
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -79,7 +125,7 @@ export const ProductForm: React.FC<Props> = ({
           onChange={handleChange}
           required
           min="0"
-          step="0.01"
+          step="0.10"
           placeholder="Ej: 299.99"
         />
       </div>
@@ -104,6 +150,55 @@ export const ProductForm: React.FC<Props> = ({
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="space-y-3">
+        <Label>Imagen (Opcional)</Label>
+        
+        {previewUrl ? (
+          <div className="space-y-3">
+            <div className="relative w-full max-w-sm">
+              <img 
+                src={previewUrl} 
+                alt="Preview" 
+                className="w-full h-48 object-cover rounded-lg border"
+              />
+              <Button
+                type="button"
+                variant="destructive"
+                size="icon"
+                className="absolute top-2 right-2"
+                onClick={handleRemoveImage}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className="border-2 border-dashed rounded-lg p-6 text-center">
+            <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-3" />
+            <div className="space-y-2">
+              <Label 
+                htmlFor="image-upload" 
+                className="text-sm text-muted-foreground cursor-pointer hover:text-foreground"
+              >
+                Click para subir una imagen
+              </Label>
+              <Input
+                id="image-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                disabled={uploading}
+                className="hidden"
+              />
+              <p className="text-xs text-muted-foreground">
+                PNG, JPG, GIF hasta 5MB
+              </p>
+            </div>
+            {uploading && <p className="text-sm mt-2">Subiendo...</p>}
+          </div>
+        )}
       </div>
 
       <div className="space-y-2">
@@ -133,7 +228,7 @@ export const ProductForm: React.FC<Props> = ({
         </Label>
       </div>
 
-      <Button type="submit" className="w-full">
+      <Button type="submit" className="w-full" disabled={uploading}>
         {submitButtonText}
       </Button>
     </form>

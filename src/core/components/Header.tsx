@@ -7,7 +7,7 @@ export const Header: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout: () => void = () => {
+  const handleLogout = (): void => {
     logout();
     navigate('/login');
   };

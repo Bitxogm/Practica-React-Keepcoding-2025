@@ -71,3 +71,32 @@ export const deleteProduct = async (id: number): Promise<void> => {
     throw new HttpError(response.status, `Error ${response.status}`, errorData);
   }
 };
+
+export const uploadImage = async (file: File): Promise<string> => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+  
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch(`${BASE_URL}/upload`, {
+    method: 'POST',
+    headers: {
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new HttpError(response.status, 'Error al subir la imagen');
+  }
+
+  // El backend devuelve JSON: { "path": "http://..." }
+  const data = await response.json();
+  const imageUrl = data.path;
+  
+  // Limpiar doble slash
+  const cleanedUrl = imageUrl.replace(/\/\//g, '/').replace('http:/', 'http://');
+  
+  return cleanedUrl;
+};

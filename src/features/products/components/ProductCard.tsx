@@ -3,7 +3,7 @@ import type { PCComponent } from '../types/product';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ExternalLink, Tag } from 'lucide-react';
+import { ExternalLink, Tag, ImageOff } from 'lucide-react';
 
 interface Props {
   product: PCComponent;
@@ -11,7 +11,24 @@ interface Props {
 
 export const ProductCard: React.FC<Props> = ({ product }) => {
   return (
-    <Card className="hover:shadow-lg transition-shadow">
+    <Card className="hover:shadow-lg transition-shadow overflow-hidden">
+      {product.image ? (
+        <div className="w-full h-48 overflow-hidden bg-muted">
+          <img 
+            src={product.image} 
+            alt={product.name}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
+        </div>
+      ) : (
+        <div className="w-full h-48 bg-muted flex items-center justify-center">
+          <ImageOff className="h-12 w-12 text-muted-foreground" />
+        </div>
+      )}
+      
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex-1">
