@@ -2,6 +2,28 @@
 
 Aplicación web fullstack para gestionar un inventario de componentes de PC con autenticación JWT, desarrollada como práctica del bootcamp KeepCoding Web 19 (Diciembre 2024).
 
+## 📸 Capturas de Pantalla
+
+### Login
+![Login Page](screenshots/01-login.png)
+*Página de login con checkbox "Recordar contraseña" y validación*
+
+### Listado de Productos
+![Products List](screenshots/02-products-list.png)
+*Listado con filtros avanzados, paginación (6 por página) y grid responsive*
+
+### Detalle de Producto
+![Product Detail](screenshots/03-product-detail.png)
+*Vista detallada con imagen, precio, categorías y acciones (editar/eliminar)*
+
+### Crear Producto
+![Create Product](screenshots/04-create-product.png)
+*Formulario completo con upload de imágenes y validaciones en tiempo real*
+
+### Filtros Activos
+![Filters](screenshots/05-filters.png)
+*Sistema de filtros client-side: nombre, precio, tags y estado (ofertas)*
+
 ## 🛠️ Tecnologías Utilizadas
 
 ### Frontend
