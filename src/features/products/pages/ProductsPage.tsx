@@ -1,17 +1,22 @@
-import { Plus } from 'lucide-react';
+
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
 import { ProductCard } from '../components/ProductCard';
 import { ProductFilters } from '../components/ProductFilters';
 import { filterProducts } from '../utils/filterProducts';
 import type { ProductFilters as Filters } from '../types/filters';
 import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
+import { CustomPagination } from '@/components/custom/CustomPagination';
 
 const AVAILABLE_TAGS = ["CPU", "GPU", "RAM", "SSD", "Motherboard", "PSU", "Case", "Cooler"];
+const ITEMS_PER_PAGE = 6;
 
 export const ProductsPage: React.FC = () => {
   const { products, loading, error } = useProducts();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [filters, setFilters] = useState<Filters>({
     name: '',
     minPrice: 0,
@@ -20,7 +25,27 @@ export const ProductsPage: React.FC = () => {
     isOnSale: null,
   });
 
+  // Leer página de la URL (default: 1)
+  const currentPage = parseInt(searchParams.get('page') || '1', 10);
+
   const filteredProducts = filterProducts(products, filters);
+
+  // Calcular paginación
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+
+  // Actualizar página en la URL
+  const handlePageChange = (page: number) => {
+    setSearchParams({ page: page.toString() });
+  };
+
+  // Reset página cuando cambian los filtros
+  const handleFilterChange = (newFilters: Filters) => {
+    setFilters(newFilters);
+    setSearchParams({ page: '1' });
+  };
 
   if (loading) {
     return <div className="text-center py-12">Cargando productos...</div>;
@@ -47,14 +72,18 @@ export const ProductsPage: React.FC = () => {
         </Link>
       </div>
 
-      <ProductFilters 
-        onFilterChange={setFilters} 
+      <ProductFilters
+        onFilterChange={handleFilterChange}
         availableTags={AVAILABLE_TAGS}
       />
-      
+
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
-          Mostrando {filteredProducts.length} de {products.length} productos
+          Mostrando {paginatedProducts.length} de {filteredProducts.length} productos
+          {filteredProducts.length !== products.length && ` (${products.length} totales)`}
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Página {currentPage} de {totalPages}
         </p>
       </div>
 
@@ -63,11 +92,21 @@ export const ProductsPage: React.FC = () => {
           <p className="text-muted-foreground">No se encontraron productos con los filtros seleccionados.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {paginatedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+
+          {totalPages > 1 && (
+            <CustomPagination
+              page={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </>
       )}
     </div>
   );
