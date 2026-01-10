@@ -8,7 +8,8 @@ import { filterProducts } from '../utils/filterProducts';
 import type { ProductFilters as Filters } from '../types/filters';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
-import { CustomPagination } from '@/components/custom/CustomPagination';
+import { CustomPagination } from '@/core/components/CustomPagination';
+import { Spinner } from '@/core/components/Spinner';
 
 const AVAILABLE_TAGS = ["CPU", "GPU", "RAM", "SSD", "Motherboard", "PSU", "Case", "Cooler"];
 const ITEMS_PER_PAGE = 6;
@@ -48,7 +49,7 @@ export const ProductsPage: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="text-center py-12">Cargando productos...</div>;
+    return <Spinner />
   }
 
   if (error) {

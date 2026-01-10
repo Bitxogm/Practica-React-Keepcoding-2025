@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useHandleAuthError } from '@core/hooks/useHandleAuthError';
+import { Spinner } from '@/core/components/Spinner';
 
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -28,7 +29,7 @@ const handleDelete = async () => {
 };
 
   if (loading) {
-    return <div className="text-center py-12">Cargando producto...</div>;
+    return <Spinner />
   }
 
   if (error) {

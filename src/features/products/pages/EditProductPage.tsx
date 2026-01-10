@@ -8,6 +8,7 @@ import type { PCComponent } from '../types/product';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useHandleAuthError } from '@core/hooks/useHandleAuthError';
+import { Spinner } from '@/core/components/Spinner';
 
 export const EditProductPage: React.FC = () => {
   const { handleError } = useHandleAuthError();
@@ -26,7 +27,7 @@ export const EditProductPage: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="text-center py-12">Cargando producto...</div>;
+    return < Spinner />
   }
 
   if (error) {
