@@ -80,42 +80,60 @@ Aplicación web fullstack para gestionar un inventario de componentes de PC con 
 - ✅ Mensajes claros y contextuales
 
 ## 📁 Estructura del Proyecto
+
+### Monorepo con Workspaces
 ```
-├── server/                      # Backend (Sparrest.js)
-│   ├── db.json                 # Base de datos JSON
-│   ├── .env                    # Variables de entorno
-│   └── index.js                # Servidor
+├── package.json                # Configuración de workspaces (raíz)
+├── README.md                   # Este archivo
+├── docs/                       # Documentación del bootcamp
+├── screenshots/                # Capturas de pantalla
+├── scripts/                    # Scripts globales
+│   └── check-secrets.sh
 │
-├── src/
-│   ├── core/                   # Componentes y lógica compartida
-│   │   ├── components/         # Header, ProtectedRoute, ConfirmDialog
-│   │   ├── routes/            # Configuración de rutas
-│   │   ├── types/             # Tipos compartidos
-│   │   └── utils/             # Helpers (http-errors)
-│   │
-│   ├── features/              # Funcionalidades por módulo
-│   │   ├── auth/             # Autenticación
-│   │   │   ├── components/   # LoginForm
-│   │   │   ├── context/      # AuthContext (estado global)
-│   │   │   ├── hooks/        # [movido a context]
-│   │   │   ├── pages/        # LoginPage, RegisterPage
-│   │   │   ├── services/     # auth.service (API)
-│   │   │   └── types/        # User, LoginCredentials
+├── client/                     # 🎨 FRONTEND (React + Vite)
+│   ├── src/
+│   │   ├── core/              # Componentes y lógica compartida
+│   │   │   ├── components/    # Header, ProtectedRoute, ConfirmDialog
+│   │   │   ├── routes/        # Configuración de rutas
+│   │   │   ├── types/         # Tipos compartidos
+│   │   │   └── utils/         # Helpers (http-errors)
 │   │   │
-│   │   └── products/         # Gestión de productos
-│   │       ├── components/   # ProductCard, ProductForm, ProductFilters
-│   │       ├── hooks/        # useProducts, useProduct
-│   │       ├── pages/        # ProductsPage, ProductDetailPage, etc.
-│   │       ├── services/     # products.service (API)
-│   │       ├── types/        # PCComponent, ProductFilters
-│   │       └── utils/        # filterProducts
+│   │   ├── features/          # Funcionalidades por módulo
+│   │   │   ├── auth/          # Autenticación
+│   │   │   │   ├── components/   # LoginForm
+│   │   │   │   ├── context/      # AuthContext (estado global)
+│   │   │   │   ├── hooks/        # [movido a context]
+│   │   │   │   ├── pages/        # LoginPage, RegisterPage
+│   │   │   │   ├── services/     # auth.service (API)
+│   │   │   │   └── types/        # User, LoginCredentials
+│   │   │   │
+│   │   │   └── products/      # Gestión de productos
+│   │   │       ├── components/   # ProductCard, ProductForm, ProductFilters
+│   │   │       ├── hooks/        # useProducts, useProduct
+│   │   │       ├── pages/        # ProductsPage, ProductDetailPage, etc.
+│   │   │       ├── services/     # products.service (API)
+│   │   │       ├── types/        # PCComponent, ProductFilters
+│   │   │       └── utils/        # filterProducts
+│   │   │
+│   │   ├── components/ui/     # shadcn/ui components
+│   │   ├── App.tsx            # Layout principal
+│   │   └── main.tsx           # Entry point con AuthProvider
 │   │
-│   ├── components/ui/         # shadcn/ui components
-│   ├── App.tsx               # Layout principal
-│   └── main.tsx              # Entry point con AuthProvider
+│   ├── index.html             # HTML template
+│   ├── vite.config.ts         # Configuración de Vite
+│   ├── package.json           # Dependencias del frontend
+│   ├── .env                   # Variables de entorno frontend
+│   ├── tsconfig.json          # TypeScript config
+│   ├── tailwind.config.js     # Tailwind config
+│   └── node_modules/          # Dependencias frontend
 │
-├── .env                       # Variables de entorno frontend
-└── README.md                  # Este archivo
+└── server/                     # 🔧 BACKEND (Sparrest.js)
+    ├── db.json                 # Base de datos JSON
+    ├── index.js                # Servidor
+    ├── package.json            # Dependencias del backend
+    ├── .env                    # Variables de entorno backend
+    ├── public/                 # Archivos públicos (uploads)
+    └── node_modules/           # Dependencias backend
 ```
 
 ## 🚀 Instalación y Ejecución
@@ -130,28 +148,27 @@ git clone <tu-repositorio>
 cd Practica-React
 ```
 
-### 2. Instalar dependencias
+### 2. Instalar dependencias (con Workspaces)
 
-**Frontend:**
+El proyecto usa **npm workspaces** para gestionar frontend y backend juntos:
+
 ```bash
+# Desde la raíz del proyecto (instala todo)
 npm install
 ```
 
-**Backend:**
-```bash
-cd server
-npm install
-cd ..
-```
+Esto instalará automáticamente las dependencias de:
+- `client/` (frontend)
+- `server/` (backend)
 
 ### 3. Configurar variables de entorno
 
-**Frontend (.env en raíz):**
+**Frontend (client/.env):**
 ```bash
-cp .env.example .env
+cp .env.example client/.env
 ```
 
-Contenido de `.env`:
+Contenido de `client/.env`:
 ```env
 VITE_API_URL=http://localhost:8000/api
 VITE_BASE_URL=http://localhost:8000
@@ -177,20 +194,29 @@ AUTH_WRITE=yes
 
 ### 4. Ejecutar la aplicación
 
-**Opción A: Todo junto (Recomendado)**
+**Opción A: Todo junto (Recomendado) - Desde la raíz**
 ```bash
-npm run dev:full
+npm run dev
+```
+Esto ejecuta frontend y backend simultáneamente.
+
+**Opción B: Frontend o backend por separado - Desde la raíz**
+```bash
+# Solo frontend
+npm run dev:client
+
+# Solo backend
+npm run dev:server
 ```
 
-**Opción B: Por separado**
-
-Terminal 1 - Backend:
+**Opción C: Ejecutar desde cada carpeta**
 ```bash
-npm run server
-```
+# Terminal 1 - Frontend
+cd client
+npm run dev
 
-Terminal 2 - Frontend:
-```bash
+# Terminal 2 - Backend
+cd server
 npm run dev
 ```
 
@@ -208,13 +234,32 @@ Contraseña: 1234
 También puedes registrar nuevos usuarios en `/register`
 
 ## 📜 Scripts Disponibles
+
+### Desde la raíz (con workspaces):
 ```json
 {
-  "dev": "Solo frontend (Vite)",
-  "server": "Solo backend (Sparrest)",
-  "dev:full": "Frontend + Backend simultáneamente",
+  "dev": "Ejecuta frontend + backend simultáneamente",
+  "dev:client": "Solo frontend (Vite)",
+  "dev:server": "Solo backend (Sparrest)",
+  "build": "Compilar frontend para producción",
+  "install:all": "Reinstalar todas las dependencias",
+  "clean": "Eliminar todos los node_modules"
+}
+```
+
+### Desde client/:
+```json
+{
+  "dev": "Vite dev server (puerto 5173)",
   "build": "Compilar para producción",
-  "lint": "Linter de código"
+  "lint": "ESLint"
+}
+```
+
+### Desde server/:
+```json
+{
+  "dev": "Sparrest server (puerto 8000)"
 }
 ```
 
@@ -290,7 +335,8 @@ Authorization: Bearer <JWT_TOKEN>
 
 **Error: "No se pudo conectar con el servidor"**
 - Verifica que el backend esté corriendo en puerto 8000
-- Usa `npm run dev:full` para arrancar todo
+- Usa `npm run dev` desde la raíz para arrancar todo
+- Verifica que exista `client/.env` con las variables correctas
 
 **Error 401 al ver productos**
 - Necesitas estar autenticado (AUTH_READ=yes)
@@ -300,15 +346,38 @@ Authorization: Bearer <JWT_TOKEN>
 - Los filtros son client-side, funcionan con datos ya cargados
 - Si no ves productos, verifica la autenticación
 
+**Error: "Unexpected token '<', "<!doctype "... is not valid JSON"**
+- Falta el archivo `client/.env` con las variables de entorno
+- Copia `client/.env.example` a `client/.env`
+- Reinicia el servidor de desarrollo
+
 ## 👨‍💻 Desarrollo
+
+### Estructura de Monorepo
+El proyecto usa **npm workspaces** para gestionar múltiples paquetes:
+- `client/` - Frontend (React + Vite)
+- `server/` - Backend (Sparrest.js)
 
 ### Añadir un nuevo componente shadcn/ui
 ```bash
+cd client
 npx shadcn@latest add <component-name>
 ```
 
 ### Añadir un nuevo producto de prueba
 Edita `server/db.json` y reinicia el backend.
+
+### Gestión de dependencias
+```bash
+# Instalar en frontend
+npm install <paquete> --workspace=client
+
+# Instalar en backend
+npm install <paquete> --workspace=server
+
+# Instalar en ambos
+npm install <paquete> --workspaces
+```
 
 ## 📄 Licencia
 
