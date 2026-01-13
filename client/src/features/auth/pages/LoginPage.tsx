@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '@core/hooks/useAuth';
 import { LoginForm } from '../components/LoginForm';
 import type { LoginCredentials } from '../types/user';
 import { toast } from 'sonner';

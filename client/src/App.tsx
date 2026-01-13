@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { Header } from '@core/components/Header';
-import './App.css';
+import { Footer } from '@core/components/Footer';
 
 export const App: React.FC = () => {
   return (
@@ -12,9 +12,7 @@ export const App: React.FC = () => {
         <Outlet />
       </main>
       
-      <footer className="border-t mt-auto py-6 text-center text-sm text-muted-foreground">
-        <p>© 2025 PC Components Dashboard</p>
-      </footer>
+      <Footer />
 
       <Toaster position="top-right" richColors />
     </div>

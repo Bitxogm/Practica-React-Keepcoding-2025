@@ -6,13 +6,12 @@ import App from '../../App';
 import type { MenuOption } from '../types/menu-option';
 
 // Lazy loading de páginas
-// const HomePage = lazy(() => import('@features/home/HomePage'));
 const EditProductPage = lazy(() => import('@features/products/pages/EditProductPage'));
 const LoginPage = lazy(() => import('@features/auth/pages/LoginPage'));
 const ProductsPage = lazy(() => import('@features/products/pages/ProductsPage'));
 const ProductDetailPage = lazy(() => import('@features/products/pages/ProductDetailPage'));
 const NewProductPage = lazy(() => import('@features/products/pages/NewProductPage'));
-const NotFoundPage = lazy(() => import('@features/NotFoundPage'));
+const NotFoundPage = lazy(() => import('@features/not-found/pages/NotFoundPage'));
 const RegisterPage = lazy(() => import('@features/auth/pages/RegisterPage'));
 
 // Loading component
@@ -76,6 +75,10 @@ export const routes: RouteObject[] = [
         ),
       },
 
+      {
+        path: '/404',
+        element: lazyLoad(NotFoundPage),
+      },
       {
         path: '*',
         element: lazyLoad(NotFoundPage),

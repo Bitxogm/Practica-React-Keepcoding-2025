@@ -10,17 +10,25 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useHandleAuthError } from '@core/hooks/useHandleAuthError';
 import { Spinner } from '@/core/components/Spinner';
+import { Navigate } from 'react-router-dom';
 
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { handleError } = useHandleAuthError();
-  const { product, loading, error } = useProduct(Number(id));
+  
+  // Validar que el ID sea un número válido
+  const productId = Number(id);
+  if (!id || isNaN(productId) || productId <= 0) {
+    return <Navigate to="/404" replace />;
+  }
+  
+  const { product, loading, error } = useProduct(productId);
   const [showConfirm, setShowConfirm] = useState(false);
 
 const handleDelete = async () => {
   try {
-    await productsService.deleteProduct(Number(id));
+    await productsService.deleteProduct(productId);
     toast.success('Producto eliminado correctamente');
     navigate('/products');
   } catch (error) {

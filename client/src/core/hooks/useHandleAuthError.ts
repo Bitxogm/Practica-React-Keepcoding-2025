@@ -2,7 +2,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { useAuth } from '@features/auth/hooks/useAuth';
+import { useAuth } from '@core/hooks/useAuth';
 import { HttpError, getErrorMessage } from '@core/utils/http-errors';
 
 export const useHandleAuthError = () => {

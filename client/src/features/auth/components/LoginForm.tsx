@@ -7,9 +7,15 @@ import { Checkbox } from '@/components/ui/checkbox';
 
 interface Props {
   onSubmit: (credentials: LoginCredentials, rememberMe: boolean) => void;
+  submitButtonText?: string;
+  showRememberMe?: boolean;
 }
 
-export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
+export const LoginForm: React.FC<Props> = ({ 
+  onSubmit, 
+  submitButtonText = 'Iniciar Sesión',
+  showRememberMe = true 
+}) => {
   const [formData, setFormData] = useState<LoginCredentials>({
     username: '',
     password: '',
@@ -56,19 +62,21 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
         />
       </div>
 
-      <div className="flex items-center space-x-2">
-        <Checkbox
-          id="rememberMe"
-          checked={rememberMe}
-          onCheckedChange={(checked) => setRememberMe(checked as boolean)}
-        />
-        <Label htmlFor="rememberMe" className="text-sm font-normal cursor-pointer">
-          Recordar contraseña
-        </Label>
-      </div>
+      {showRememberMe && (
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="rememberMe"
+            checked={rememberMe}
+            onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+          />
+          <Label htmlFor="rememberMe" className="text-sm font-normal cursor-pointer">
+            Recordar contraseña
+          </Label>
+        </div>
+      )}
 
       <Button type="submit" className="w-full">
-        Iniciar Sesión
+        {submitButtonText}
       </Button>
     </form>
   );

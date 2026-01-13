@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
-import type { User, LoginCredentials } from '../types/user';
-import * as authService from '../services/auth.service';
-import { AuthContext } from './AuthContextDefinition';
+import type { User, LoginCredentials } from '@features/auth/types/user';
+import * as authService from '@features/auth/services/auth.service';
+import { STORAGE_KEYS } from '@core/config/constants';
+import { AuthContext } from './AuthContext';
 
 type JwtPayload = {
   userId: number;
@@ -12,11 +13,11 @@ type JwtPayload = {
 };
 
 const getInitialToken = (): string | null => {
-  return localStorage.getItem('token') || sessionStorage.getItem('token');
+  return localStorage.getItem(STORAGE_KEYS.TOKEN) || sessionStorage.getItem(STORAGE_KEYS.TOKEN);
 };
 
 const getInitialUser = (): User | null => {
-  const savedUser = localStorage.getItem('user') || sessionStorage.getItem('user');
+  const savedUser = localStorage.getItem(STORAGE_KEYS.USER) || sessionStorage.getItem(STORAGE_KEYS.USER);
   if (!savedUser || savedUser === 'undefined') {
     return null;
   }
@@ -26,6 +27,7 @@ const getInitialUser = (): User | null => {
     return null;
   }
 };
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(getInitialUser);
   const [token, setToken] = useState<string | null>(getInitialToken);
@@ -40,23 +42,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       username: decoded.username,
     };
 
-    if (rememberMe) {
-      localStorage.setItem('token', data.accessToken);
-      localStorage.setItem('user', JSON.stringify(user));
-    } else {
-      sessionStorage.setItem('token', data.accessToken);
-      sessionStorage.setItem('user', JSON.stringify(user));
-    }
+    const storage = rememberMe ? localStorage : sessionStorage;
+    storage.setItem(STORAGE_KEYS.TOKEN, data.accessToken);
+    storage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
 
     setToken(data.accessToken);
     setUser(user);
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('user');
+    localStorage.removeItem(STORAGE_KEYS.TOKEN);
+    localStorage.removeItem(STORAGE_KEYS.USER);
+    sessionStorage.removeItem(STORAGE_KEYS.TOKEN);
+    sessionStorage.removeItem(STORAGE_KEYS.USER);
     setToken(null);
     setUser(null);
   };

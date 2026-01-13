@@ -1,6 +1,6 @@
 import { ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link, Navigate } from 'react-router-dom';
 import { useProduct } from '../hooks/useProduct';
 import { ProductForm } from '../components/ProductForm';
 import * as productsService from '../services/products.service';
@@ -14,13 +14,21 @@ export const EditProductPage: React.FC = () => {
   const { handleError } = useHandleAuthError();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { product, loading, error } = useProduct(Number(id));
+  
+  // Validar que el ID sea un número válido
+  const productId = Number(id);
+  if (!id || isNaN(productId) || productId <= 0) {
+    return <Navigate to="/404" replace />;
+  }
+  
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { product, loading, error } = useProduct(productId);
 
   const handleSubmit = async (updatedProduct: Omit<PCComponent, 'id'>) => {
     try {
-      await productsService.updateProduct(Number(id), updatedProduct);
+      await productsService.updateProduct(productId, updatedProduct);
       toast.success('Producto actualizado correctamente');
-      navigate(`/products/${id}`);
+      navigate(`/products/${productId}`);
     } catch (error) {
       handleError(error);
     }

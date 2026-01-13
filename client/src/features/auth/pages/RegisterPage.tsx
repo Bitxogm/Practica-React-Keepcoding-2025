@@ -29,7 +29,11 @@ export const RegisterPage: React.FC = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <LoginForm onSubmit={handleRegister} />
+          <LoginForm 
+            onSubmit={handleRegister}
+            submitButtonText="Crear Cuenta"
+            showRememberMe={false}
+          />
           
           <p className="mt-4 text-center text-sm text-muted-foreground">
             ¿Ya tienes cuenta?{' '}

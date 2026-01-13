@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '@features/auth/hooks/useAuth';
+import { useAuth } from '@core/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { LogOut, Package } from 'lucide-react';
 
@@ -25,10 +25,10 @@ export const Header: React.FC = () => {
             {isAuthenticated ? (
               <>
                 <Link to="/products" className="text-sm font-medium hover:underline">
-                  Productos
+                 📦 Productos
                 </Link>
                 <span className="text-sm text-muted-foreground">
-                  {user?.username}
+                👋🏻 Hellow {user?.username}
                 </span>
                 <Button onClick={handleLogout} variant="destructive" size="sm">
                   <LogOut className="mr-2 h-4 w-4" />
