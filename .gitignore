@@ -159,3 +159,7 @@ dist
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
+
+# Scripts
+.scripts/
+./sh
