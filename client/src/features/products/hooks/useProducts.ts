@@ -33,6 +33,7 @@ export const useProducts = () => {
     try {
       const newProduct = await productsService.createProduct(product);
       setProducts([...products, newProduct]);
+      return newProduct;
     } catch (err) {
       setError(getErrorMessage(err));
       handleError(err);

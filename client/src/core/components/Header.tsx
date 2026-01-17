@@ -1,15 +1,19 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@core/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { LogOut, Package } from 'lucide-react';
+import { ConfirmDialog } from '@core/components/ConfirmDialog';
 
 export const Header: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const handleLogout = (): void => {
     logout();
     navigate('/login');
+    setShowLogoutConfirm(false);
   };
 
   return (
@@ -27,10 +31,13 @@ export const Header: React.FC = () => {
                 <Link to="/products" className="text-sm font-medium hover:underline">
                  📦 Productos
                 </Link>
+                <Link to="/products/new" className="text-sm font-medium hover:underline">
+                 ➕ Nuevo Producto
+                </Link>
                 <span className="text-sm text-muted-foreground">
                 👋🏻 Hellow {user?.username}
                 </span>
-                <Button onClick={handleLogout} variant="destructive" size="sm">
+                <Button onClick={() => setShowLogoutConfirm(true)} variant="destructive" size="sm">
                   <LogOut className="mr-2 h-4 w-4" />
                   Cerrar Sesión
                 </Button>
@@ -45,6 +52,14 @@ export const Header: React.FC = () => {
           </nav>
         </div>
       </div>
+
+      <ConfirmDialog
+        isOpen={showLogoutConfirm}
+        title="Cerrar Sesión"
+        message="¿Estás seguro de que quieres cerrar sesión?"
+        onConfirm={handleLogout}
+        onCancel={() => setShowLogoutConfirm(false)}
+      />
     </header>
   );
 };

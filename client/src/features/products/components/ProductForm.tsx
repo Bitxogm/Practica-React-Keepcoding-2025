@@ -33,6 +33,12 @@ export const ProductForm: React.FC<Props> = ({
   const [uploading, setUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(initialData?.image || null);
 
+  // Validación: Todos los campos excepto image son requeridos
+  const isFormValid = formData.name.trim() !== '' && 
+                      formData.price > 0 && 
+                      formData.tags.length > 0 && 
+                      formData.description.trim() !== '';
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
@@ -228,7 +234,7 @@ const handleSubmit = (e: React.FormEvent) => {
         </Label>
       </div>
 
-      <Button type="submit" className="w-full" disabled={uploading}>
+      <Button type="submit" className="w-full" disabled={uploading || !isFormValid}>
         {submitButtonText}
       </Button>
     </form>

@@ -19,12 +19,14 @@ export const ProductDetailPage: React.FC = () => {
   
   // Validar que el ID sea un número válido
   const productId = Number(id);
+  
+  const [showConfirm, setShowConfirm] = useState(false);
+  const { product, loading, error } = useProduct(productId);
+  
+  // Validación DESPUÉS de los hooks
   if (!id || isNaN(productId) || productId <= 0) {
     return <Navigate to="/404" replace />;
   }
-  
-  const { product, loading, error } = useProduct(productId);
-  const [showConfirm, setShowConfirm] = useState(false);
 
 const handleDelete = async () => {
   try {

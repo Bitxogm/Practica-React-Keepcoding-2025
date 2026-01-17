@@ -89,8 +89,20 @@ export const ProductsPage: React.FC = () => {
       </div>
 
       {filteredProducts.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground">No se encontraron productos con los filtros seleccionados.</p>
+        <div className="text-center py-12 space-y-4">
+          <p className="text-muted-foreground">
+            {products.length === 0 
+              ? "No hay productos disponibles." 
+              : "No se encontraron productos con los filtros seleccionados."}
+          </p>
+          {products.length === 0 && (
+            <Link to="/products/new">
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                Crear primer producto
+              </Button>
+            </Link>
+          )}
         </div>
       ) : (
         <>

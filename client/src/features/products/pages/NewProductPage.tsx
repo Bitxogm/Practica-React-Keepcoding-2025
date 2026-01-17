@@ -14,9 +14,9 @@ export const NewProductPage: React.FC = () => {
   
   const handleSubmit = async (product: Omit<PCComponent, 'id'>) => {
   try {
-    await createProduct(product);
+    const newProduct = await createProduct(product);
     toast.success('Producto creado correctamente');
-    navigate('/products');
+    navigate(`/products/${newProduct.id}`);
   } catch (error) {
     handleError(error);
   }
