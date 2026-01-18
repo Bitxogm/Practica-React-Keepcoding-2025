@@ -198,7 +198,7 @@ AUTH_WRITE=yes
 ```bash
 npm run dev
 ```
-Esto ejecuta frontend y backend simultáneamente.
+Esto ejecuta frontend y backend simultáneamente usando `concurrently` (compatible con Windows, Linux y macOS).
 
 **Opción B: Frontend o backend por separado - Desde la raíz**
 ```bash
@@ -238,14 +238,16 @@ También puedes registrar nuevos usuarios en `/register`
 ### Desde la raíz (con workspaces):
 ```json
 {
-  "dev": "Ejecuta frontend + backend simultáneamente",
+  "dev": "Ejecuta frontend + backend simultáneamente (con concurrently - multiplataforma)",
   "dev:client": "Solo frontend (Vite)",
   "dev:server": "Solo backend (Sparrest)",
   "build": "Compilar frontend para producción",
   "install:all": "Reinstalar todas las dependencias",
-  "clean": "Eliminar todos los node_modules"
+  "clean": "Eliminar todos los node_modules (con rimraf - multiplataforma)"
 }
 ```
+
+**🌐 Multiplataforma:** Los scripts usan `concurrently` y `rimraf` para funcionar correctamente en Windows, Linux y macOS.
 
 ### Desde client/:
 ```json

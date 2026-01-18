@@ -59,6 +59,7 @@ export const Header: React.FC = () => {
         message="¿Estás seguro de que quieres cerrar sesión?"
         onConfirm={handleLogout}
         onCancel={() => setShowLogoutConfirm(false)}
+        confirmText="Cerrar Sesión"
       />
     </header>
   );

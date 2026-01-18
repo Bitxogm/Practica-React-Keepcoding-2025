@@ -15,6 +15,8 @@ interface Props {
   message: string;
   onConfirm: () => void;
   onCancel: () => void;
+  confirmText?: string;
+  cancelText?: string;
 }
 
 export const ConfirmDialog: React.FC<Props> = ({ 
@@ -22,7 +24,9 @@ export const ConfirmDialog: React.FC<Props> = ({
   title, 
   message, 
   onConfirm, 
-  onCancel 
+  onCancel,
+  confirmText = "Eliminar",
+  cancelText = "Cancelar"
 }) => {
   return (
     <AlertDialog open={isOpen} onOpenChange={(open) => !open && onCancel()}>
@@ -34,9 +38,9 @@ export const ConfirmDialog: React.FC<Props> = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onCancel}>Cancelar</AlertDialogCancel>
+          <AlertDialogCancel onClick={onCancel}>{cancelText}</AlertDialogCancel>
           <AlertDialogAction onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">
-            Eliminar
+            {confirmText}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
