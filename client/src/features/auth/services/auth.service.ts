@@ -25,7 +25,6 @@ export const login = async (credentials: LoginCredentials): Promise<AuthResponse
   });
 
   const data = await handleResponse<AuthResponse>(response);
-  console.log('📡 Respuesta del backend login:', data);
   return data;
 };
 
