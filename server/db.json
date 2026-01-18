@@ -255,7 +255,7 @@
     {
       "id": 22,
       "name": "Noctua NH-D15",
-      "price": 109,
+      "price": 1090,
       "tags": [
         "Cooler"
       ],
@@ -299,20 +299,6 @@
       "isOnSale": true,
       "description": "AIO 280mm, VRM fan incluido. Mejor rendimiento precio del mercado.",
       "userId": 1
-    },
-    {
-      "name": "Konekkta_Python",
-      "price": 565,
-      "tags": [
-        "CPU",
-        "RAM"
-      ],
-      "image": "http://localhost:8000/file-1768201389137.png",
-      "isOnSale": true,
-      "description": "ghmghjbmgjh",
-      "userId": 1,
-      "updatedAt": "2026-01-12T07:03:13.607Z",
-      "id": 26
     }
   ],
   "users": [
@@ -320,6 +306,11 @@
       "username": "admin",
       "password": "$2b$10$y0OPmrDyxYrGF6rYfxC78eGGwvUKhKWm0fYhmTCS3jyi4ijpGpBO6",
       "id": 1
+    },
+    {
+      "username": "bitxogm1976@gmail.com",
+      "password": "$2b$10$GhxCiegstTOYqlk6YU//VeRmXbuEcZp0eiWbWqyXFBk/FGuN7u1Ru",
+      "id": 2
     }
   ],
   "tags": [
